@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "PropertySystems | Real estate reimagined",
   description:
     "Discover, list, and manage properties effortlessly with PropertySystems, built for modern real estate teams.",
+  icons: {
+    icon: "/branding/logo.png",
+    shortcut: "/branding/logo.png",
+  },
 };
 
 export default function RootLayout({
