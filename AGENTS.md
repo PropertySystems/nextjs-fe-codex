@@ -24,7 +24,6 @@ AI agents (Codex) must strictly follow the rules and constraints described below
 
 - Use Tailwind utility classes
 - Prefer shadcn/ui components
-- Avoid inline styles
 - Keep class lists readable and consistent
 
 ---
