@@ -56,17 +56,17 @@ const steps = [
 export default function Home() {
   return (
     <main className="mx-auto flex max-w-6xl flex-col gap-16 px-4 pb-20 pt-12">
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/80 p-10 shadow-sm">
+      <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/40 p-10 shadow-sm">
         <div className="absolute inset-0 -z-10 overflow-hidden">
           <Image
             src="/branding/landing-page-image-01.png"
             alt="Stylish living room with natural light"
             fill
             priority
-            className="object-cover opacity-30"
+            className="object-cover opacity-60"
             sizes="(min-width: 1024px) 1200px, 100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-white via-white/90 to-white/70" />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/30 to-white/10" />
         </div>
         <div className="absolute inset-x-10 top-10 h-44 rounded-full bg-gradient-to-r from-slate-900/10 via-blue-500/10 to-emerald-400/10 blur-3xl" />
         <div className="relative grid gap-10 lg:grid-cols-2 lg:items-center">
