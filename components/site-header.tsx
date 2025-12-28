@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -25,9 +26,14 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
         <Link href="/" className="flex items-center gap-3 text-slate-900">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-lg font-semibold text-white">
-            PS
-          </div>
+          <Image
+            src="/branding/logo.png"
+            alt="PropertySystems logo"
+            width={40}
+            height={40}
+            className="rounded-xl shadow-sm"
+            priority
+          />
           <div className="leading-tight">
             <div className="text-sm font-medium text-slate-500">Property</div>
             <div className="text-lg font-semibold text-slate-900">Systems</div>

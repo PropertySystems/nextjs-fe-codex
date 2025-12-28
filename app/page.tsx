@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Compass, Home as HomeIcon, MapPin, ShieldCheck, Sparkles } from "lucide-react";
 
@@ -56,6 +57,17 @@ export default function Home() {
   return (
     <main className="mx-auto flex max-w-6xl flex-col gap-16 px-4 pb-20 pt-12">
       <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/80 p-10 shadow-sm">
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <Image
+            src="/branding/landing-page-image-01.png"
+            alt="Stylish living room with natural light"
+            fill
+            priority
+            className="object-cover opacity-30"
+            sizes="(min-width: 1024px) 1200px, 100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-white via-white/90 to-white/70" />
+        </div>
         <div className="absolute inset-x-10 top-10 h-44 rounded-full bg-gradient-to-r from-slate-900/10 via-blue-500/10 to-emerald-400/10 blur-3xl" />
         <div className="relative grid gap-10 lg:grid-cols-2 lg:items-center">
           <div className="space-y-6">
@@ -247,9 +259,13 @@ export default function Home() {
       <footer className="border-t border-slate-200 pt-10">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-lg font-semibold text-white">
-              PS
-            </div>
+            <Image
+              src="/branding/logo.png"
+              alt="PropertySystems logo"
+              width={40}
+              height={40}
+              className="rounded-xl shadow-sm"
+            />
             <div>
               <p className="text-sm font-semibold text-slate-900">PropertySystems</p>
               <p className="text-sm text-slate-600">Homes, rentals, and spaces built for possibility.</p>
