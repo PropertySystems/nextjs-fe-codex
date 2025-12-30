@@ -2,6 +2,8 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
+import { API_BASE_URL, fetchWithError } from "@/lib/api";
+
 export type AuthUser = {
   id: string;
   email: string;
@@ -9,23 +11,7 @@ export type AuthUser = {
   role?: string;
 };
 
-const API_BASE_URL = "https://property-backend.memcommerce.shop";
 const TOKEN_STORAGE_KEY = "propertysystems.access_token";
-
-function extractErrorMessage(payload: unknown): string {
-  if (!payload) return "Unexpected error occurred.";
-  if (typeof payload === "string") return payload;
-  if (typeof payload === "object") {
-    const maybeRecord = payload as Record<string, unknown>;
-    if (typeof maybeRecord.detail === "string") return maybeRecord.detail;
-    if (Array.isArray(maybeRecord.detail) && maybeRecord.detail.length > 0) {
-      const first = maybeRecord.detail[0] as Record<string, unknown>;
-      if (typeof first.msg === "string") return first.msg;
-    }
-    if (typeof maybeRecord.message === "string") return maybeRecord.message;
-  }
-  return "Unable to complete the request.";
-}
 
 type AuthContextState = {
   user: AuthUser | null;
@@ -38,19 +24,6 @@ type AuthContextState = {
 };
 
 const AuthContext = createContext<AuthContextState | undefined>(undefined);
-
-async function fetchWithError<T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> {
-  const response = await fetch(input, init);
-  const contentType = response.headers.get("content-type");
-  const hasJson = contentType?.includes("application/json");
-  const payload = hasJson ? await response.json() : await response.text();
-
-  if (!response.ok) {
-    throw new Error(extractErrorMessage(payload));
-  }
-
-  return payload as T;
-}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
