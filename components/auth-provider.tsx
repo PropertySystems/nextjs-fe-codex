@@ -9,7 +9,7 @@ export type AuthUser = {
   role?: string;
 };
 
-const API_BASE_URL = "https://api.property.memcommerce.shop";
+const API_BASE_URL = "https://property-backend.memcommerce.shop";
 const TOKEN_STORAGE_KEY = "propertysystems.access_token";
 
 function extractErrorMessage(payload: unknown): string {
