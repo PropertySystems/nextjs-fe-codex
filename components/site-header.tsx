@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import { useAuth } from "@/components/auth-provider";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -19,6 +20,7 @@ const authLinks = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { user, logout } = useAuth();
 
   const closeMenu = () => setOpen(false);
 
@@ -65,17 +67,40 @@ export function SiteHeader() {
           >
             Create Listing
           </Link>
-          <div className="flex items-center gap-3 text-sm font-medium text-slate-700">
-            {authLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="transition-colors hover:text-slate-950"
+          {user ? (
+            <div className="flex items-center gap-3 text-sm font-medium text-slate-700">
+              <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-slate-900 shadow-sm">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold uppercase text-white">
+                  {(user.full_name || user.email || "?").charAt(0)}
+                </span>
+                <div className="leading-tight">
+                  <p className="text-xs text-slate-500">Signed in</p>
+                  <p className="text-sm font-semibold text-slate-900">
+                    {user.full_name || user.email}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={logout}
+                className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-50"
               >
-                {link.name}
-              </Link>
-            ))}
-          </div>
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3 text-sm font-medium text-slate-700">
+              {authLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="transition-colors hover:text-slate-950"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         <button
@@ -118,16 +143,40 @@ export function SiteHeader() {
             </Link>
 
             <div className="flex flex-col gap-2 pt-1 text-slate-700">
-              {authLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={closeMenu}
-                  className="rounded-lg px-3 py-2 transition hover:bg-slate-50"
-                >
-                  {link.name}
-                </Link>
-              ))}
+              {user ? (
+                <>
+                  <div className="flex items-center gap-3 rounded-lg bg-slate-50 px-3 py-2 text-slate-900">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold uppercase text-white">
+                      {(user.full_name || user.email || "?").charAt(0)}
+                    </span>
+                    <div className="leading-tight">
+                      <p className="text-xs text-slate-500">Signed in</p>
+                      <p className="text-sm font-semibold text-slate-900">{user.full_name || user.email}</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout();
+                      closeMenu();
+                    }}
+                    className="rounded-lg border border-slate-200 px-3 py-2 text-left font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-slate-50"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                authLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={closeMenu}
+                    className="rounded-lg px-3 py-2 transition hover:bg-slate-50"
+                  >
+                    {link.name}
+                  </Link>
+                ))
+              )}
             </div>
           </div>
         </div>
