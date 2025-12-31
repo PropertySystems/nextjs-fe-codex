@@ -7,9 +7,7 @@
   "paths": {
     "/api/v1/listings": {
       "get": {
-        "tags": [
-          "listings"
-        ],
+        "tags": ["listings"],
         "summary": "List Listings",
         "operationId": "list_listings_api_v1_listings_get",
         "parameters": [
@@ -60,12 +58,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "$ref": "#/components/schemas/PropertyType"
-                },
-                {
-                  "type": "null"
-                }
+                {"$ref": "#/components/schemas/PropertyType"},
+                {"type": "null"}
               ],
               "title": "Property Type"
             }
@@ -76,12 +70,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "$ref": "#/components/schemas/ListingType"
-                },
-                {
-                  "type": "null"
-                }
+                {"$ref": "#/components/schemas/ListingType"},
+                {"type": "null"}
               ],
               "title": "Listing Type"
             }
@@ -92,13 +82,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "type": "string",
-                  "maxLength": 100
-                },
-                {
-                  "type": "null"
-                }
+                {"type": "string", "maxLength": 100},
+                {"type": "null"}
               ],
               "title": "City"
             }
@@ -109,13 +94,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "type": "number",
-                  "minimum": 0
-                },
-                {
-                  "type": "null"
-                }
+                {"type": "number", "minimum": 0},
+                {"type": "null"}
               ],
               "title": "Min Price"
             }
@@ -126,13 +106,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "type": "number",
-                  "minimum": 0
-                },
-                {
-                  "type": "null"
-                }
+                {"type": "number", "minimum": 0},
+                {"type": "null"}
               ],
               "title": "Max Price"
             }
@@ -143,13 +118,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "type": "integer",
-                  "minimum": 1
-                },
-                {
-                  "type": "null"
-                }
+                {"type": "integer", "minimum": 1},
+                {"type": "null"}
               ],
               "title": "Min Area"
             }
@@ -160,13 +130,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "type": "integer",
-                  "minimum": 1
-                },
-                {
-                  "type": "null"
-                }
+                {"type": "integer", "minimum": 1},
+                {"type": "null"}
               ],
               "title": "Max Area"
             }
@@ -177,13 +142,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "type": "integer",
-                  "minimum": 0
-                },
-                {
-                  "type": "null"
-                }
+                {"type": "integer", "minimum": 0},
+                {"type": "null"}
               ],
               "title": "Min Rooms"
             }
@@ -194,13 +154,8 @@
             "required": false,
             "schema": {
               "anyOf": [
-                {
-                  "type": "integer",
-                  "minimum": 0
-                },
-                {
-                  "type": "null"
-                }
+                {"type": "integer", "minimum": 0},
+                {"type": "null"}
               ],
               "title": "Max Rooms"
             }
@@ -211,9 +166,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListingListRead"
-                }
+                "schema": {"$ref": "#/components/schemas/ListingListRead"}
               }
             }
           },
@@ -221,32 +174,22 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": {"$ref": "#/components/schemas/HTTPValidationError"}
               }
             }
           }
         }
       },
       "post": {
-        "tags": [
-          "listings"
-        ],
+        "tags": ["listings"],
         "summary": "Create Listing",
         "operationId": "create_listing_api_v1_listings_post",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
+        "security": [{"HTTPBearer": []}],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ListingCreate"
-              }
+              "schema": {"$ref": "#/components/schemas/ListingCreate"}
             }
           }
         },
@@ -255,9 +198,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListingRead"
-                }
+                "schema": {"$ref": "#/components/schemas/ListingRead"}
               }
             }
           },
@@ -265,9 +206,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": {"$ref": "#/components/schemas/HTTPValidationError"}
               }
             }
           }
@@ -276,16 +215,10 @@
     },
     "/api/v1/listings/{listing_id}/images": {
       "post": {
-        "tags": [
-          "listings"
-        ],
+        "tags": ["listings"],
         "summary": "Upload Listing Image",
         "operationId": "upload_listing_image_api_v1_listings__listing_id__images_post",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
+        "security": [{"HTTPBearer": []}],
         "parameters": [
           {
             "name": "listing_id",
@@ -313,9 +246,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListingImageRead"
-                }
+                "schema": {"$ref": "#/components/schemas/ListingImageRead"}
               }
             }
           },
@@ -323,9 +254,82 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": {"$ref": "#/components/schemas/HTTPValidationError"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/listings/{listing_id}": {
+      "patch": {
+        "tags": ["listings"],
+        "summary": "Update Listing",
+        "operationId": "update_listing_api_v1_listings__listing_id__patch",
+        "security": [{"HTTPBearer": []}],
+        "parameters": [
+          {
+            "name": "listing_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Listing Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/ListingUpdate"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ListingRead"}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/HTTPValidationError"}
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["listings"],
+        "summary": "Delete Listing",
+        "operationId": "delete_listing_api_v1_listings__listing_id__delete",
+        "security": [{"HTTPBearer": []}],
+        "parameters": [
+          {
+            "name": "listing_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Listing Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {"description": "Successful Response"},
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/HTTPValidationError"}
               }
             }
           }
@@ -334,17 +338,13 @@
     },
     "/api/v1/auth/register": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Register User",
         "operationId": "register_user_api_v1_auth_register_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserCreate"
-              }
+              "schema": {"$ref": "#/components/schemas/UserCreate"}
             }
           },
           "required": true
@@ -354,9 +354,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserRead"
-                }
+                "schema": {"$ref": "#/components/schemas/UserRead"}
               }
             }
           },
@@ -364,9 +362,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": {"$ref": "#/components/schemas/HTTPValidationError"}
               }
             }
           }
@@ -375,17 +371,13 @@
     },
     "/api/v1/auth/login": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Login",
         "operationId": "login_api_v1_auth_login_post",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserLogin"
-              }
+              "schema": {"$ref": "#/components/schemas/UserLogin"}
             }
           },
           "required": true
@@ -395,9 +387,7 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Token"
-                }
+                "schema": {"$ref": "#/components/schemas/Token"}
               }
             }
           },
@@ -405,9 +395,7 @@
             "description": "Validation Error",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
+                "schema": {"$ref": "#/components/schemas/HTTPValidationError"}
               }
             }
           }
@@ -416,9 +404,7 @@
     },
     "/api/v1/auth/me": {
       "get": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "Read Current User",
         "operationId": "read_current_user_api_v1_auth_me_get",
         "responses": {
@@ -426,18 +412,12 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserRead"
-                }
+                "schema": {"$ref": "#/components/schemas/UserRead"}
               }
             }
           }
         },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
+        "security": [{"HTTPBearer": []}]
       }
     }
   },
@@ -452,17 +432,13 @@
           }
         },
         "type": "object",
-        "required": [
-          "file"
-        ],
+        "required": ["file"],
         "title": "Body_upload_listing_image_api_v1_listings__listing_id__images_post"
       },
       "HTTPValidationError": {
         "properties": {
           "detail": {
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            },
+            "items": {"$ref": "#/components/schemas/ValidationError"},
             "type": "array",
             "title": "Detail"
           }
@@ -479,21 +455,13 @@
           },
           "description": {
             "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
+              {"type": "string"},
+              {"type": "null"}
             ],
             "title": "Description"
           },
-          "property_type": {
-            "$ref": "#/components/schemas/PropertyType"
-          },
-          "listing_type": {
-            "$ref": "#/components/schemas/ListingType"
-          },
+          "property_type": {"$ref": "#/components/schemas/PropertyType"},
+          "listing_type": {"$ref": "#/components/schemas/ListingType"},
           "price": {
             "type": "number",
             "minimum": 0.0,
@@ -552,42 +520,22 @@
           }
         },
         "type": "object",
-        "required": [
-          "id",
-          "url",
-          "created_at"
-        ],
+        "required": ["id", "url", "created_at"],
         "title": "ListingImageRead"
       },
       "ListingListRead": {
         "properties": {
           "items": {
-            "items": {
-              "$ref": "#/components/schemas/ListingRead"
-            },
+            "items": {"$ref": "#/components/schemas/ListingRead"},
             "type": "array",
             "title": "Items"
           },
-          "total": {
-            "type": "integer",
-            "title": "Total"
-          },
-          "page": {
-            "type": "integer",
-            "title": "Page"
-          },
-          "page_size": {
-            "type": "integer",
-            "title": "Page Size"
-          }
+          "total": {"type": "integer", "title": "Total"},
+          "page": {"type": "integer", "title": "Page"},
+          "page_size": {"type": "integer", "title": "Page Size"}
         },
         "type": "object",
-        "required": [
-          "items",
-          "total",
-          "page",
-          "page_size"
-        ],
+        "required": ["items", "total", "page", "page_size"],
         "title": "ListingListRead"
       },
       "ListingRead": {
@@ -599,66 +547,36 @@
           },
           "description": {
             "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
+              {"type": "string"},
+              {"type": "null"}
             ],
             "title": "Description"
           },
-          "property_type": {
-            "$ref": "#/components/schemas/PropertyType"
-          },
-          "listing_type": {
-            "$ref": "#/components/schemas/ListingType"
-          },
-          "price": {
-            "type": "number",
-            "minimum": 0.0,
-            "title": "Price"
-          },
+          "property_type": {"$ref": "#/components/schemas/PropertyType"},
+          "listing_type": {"$ref": "#/components/schemas/ListingType"},
+          "price": {"type": "number", "minimum": 0.0, "title": "Price"},
           "currency": {
             "type": "string",
             "maxLength": 3,
             "minLength": 3,
             "title": "Currency"
           },
-          "city": {
-            "type": "string",
-            "maxLength": 100,
-            "title": "City"
-          },
+          "city": {"type": "string", "maxLength": 100, "title": "City"},
           "area_sqm": {
             "type": "integer",
             "exclusiveMinimum": 0.0,
             "title": "Area Sqm"
           },
-          "rooms": {
-            "type": "integer",
-            "minimum": 0.0,
-            "title": "Rooms"
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id"
-          },
-          "user_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "User Id"
-          },
+          "rooms": {"type": "integer", "minimum": 0.0, "title": "Rooms"},
+          "id": {"type": "string", "format": "uuid", "title": "Id"},
+          "user_id": {"type": "string", "format": "uuid", "title": "User Id"},
           "created_at": {
             "type": "string",
             "format": "date-time",
             "title": "Created At"
           },
           "images": {
-            "items": {
-              "$ref": "#/components/schemas/ListingImageRead"
-            },
+            "items": {"$ref": "#/components/schemas/ListingImageRead"},
             "type": "array",
             "title": "Images"
           }
@@ -681,46 +599,94 @@
       },
       "ListingSortField": {
         "type": "string",
-        "enum": [
-          "created_at",
-          "price",
-          "area_sqm",
-          "rooms"
-        ],
+        "enum": ["created_at", "price", "area_sqm", "rooms"],
         "title": "ListingSortField"
       },
       "ListingType": {
         "type": "string",
-        "enum": [
-          "sale",
-          "rent"
-        ],
+        "enum": ["sale", "rent"],
         "title": "ListingType"
+      },
+      "ListingUpdate": {
+        "properties": {
+          "title": {
+            "anyOf": [
+              {"type": "string", "maxLength": 255},
+              {"type": "null"}
+            ],
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {"type": "string"},
+              {"type": "null"}
+            ],
+            "title": "Description"
+          },
+          "property_type": {
+            "anyOf": [
+              {"$ref": "#/components/schemas/PropertyType"},
+              {"type": "null"}
+            ]
+          },
+          "listing_type": {
+            "anyOf": [
+              {"$ref": "#/components/schemas/ListingType"},
+              {"type": "null"}
+            ]
+          },
+          "price": {
+            "anyOf": [
+              {"type": "number", "minimum": 0.0},
+              {"type": "null"}
+            ],
+            "title": "Price"
+          },
+          "currency": {
+            "anyOf": [
+              {"type": "string", "maxLength": 3, "minLength": 3},
+              {"type": "null"}
+            ],
+            "title": "Currency"
+          },
+          "city": {
+            "anyOf": [
+              {"type": "string", "maxLength": 100},
+              {"type": "null"}
+            ],
+            "title": "City"
+          },
+          "area_sqm": {
+            "anyOf": [
+              {"type": "integer", "exclusiveMinimum": 0.0},
+              {"type": "null"}
+            ],
+            "title": "Area Sqm"
+          },
+          "rooms": {
+            "anyOf": [
+              {"type": "integer", "minimum": 0.0},
+              {"type": "null"}
+            ],
+            "title": "Rooms"
+          }
+        },
+        "type": "object",
+        "title": "ListingUpdate"
       },
       "PropertyType": {
         "type": "string",
-        "enum": [
-          "apartment",
-          "house",
-          "land",
-          "office"
-        ],
+        "enum": ["apartment", "house", "land", "office"],
         "title": "PropertyType"
       },
       "SortOrder": {
         "type": "string",
-        "enum": [
-          "asc",
-          "desc"
-        ],
+        "enum": ["asc", "desc"],
         "title": "SortOrder"
       },
       "Token": {
         "properties": {
-          "access_token": {
-            "type": "string",
-            "title": "Access Token"
-          },
+          "access_token": {"type": "string", "title": "Access Token"},
           "token_type": {
             "type": "string",
             "title": "Token Type",
@@ -728,34 +694,20 @@
           }
         },
         "type": "object",
-        "required": [
-          "access_token"
-        ],
+        "required": ["access_token"],
         "title": "Token"
       },
       "UserCreate": {
         "properties": {
-          "email": {
-            "type": "string",
-            "format": "email",
-            "title": "Email"
-          },
+          "email": {"type": "string", "format": "email", "title": "Email"},
           "full_name": {
             "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 255
-              },
-              {
-                "type": "null"
-              }
+              {"type": "string", "maxLength": 255},
+              {"type": "null"}
             ],
             "title": "Full Name"
           },
-          "role": {
-            "$ref": "#/components/schemas/UserRole",
-            "default": "user"
-          },
+          "role": {"$ref": "#/components/schemas/UserRole", "default": "user"},
           "password": {
             "type": "string",
             "minLength": 8,
@@ -763,59 +715,30 @@
           }
         },
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "title": "UserCreate"
       },
       "UserLogin": {
         "properties": {
-          "email": {
-            "type": "string",
-            "format": "email",
-            "title": "Email"
-          },
-          "password": {
-            "type": "string",
-            "title": "Password"
-          }
+          "email": {"type": "string", "format": "email", "title": "Email"},
+          "password": {"type": "string", "title": "Password"}
         },
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "title": "UserLogin"
       },
       "UserRead": {
         "properties": {
-          "email": {
-            "type": "string",
-            "format": "email",
-            "title": "Email"
-          },
+          "email": {"type": "string", "format": "email", "title": "Email"},
           "full_name": {
             "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 255
-              },
-              {
-                "type": "null"
-              }
+              {"type": "string", "maxLength": 255},
+              {"type": "null"}
             ],
             "title": "Full Name"
           },
-          "role": {
-            "$ref": "#/components/schemas/UserRole",
-            "default": "user"
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id"
-          },
+          "role": {"$ref": "#/components/schemas/UserRole", "default": "user"},
+          "id": {"type": "string", "format": "uuid", "title": "Id"},
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -823,20 +746,12 @@
           }
         },
         "type": "object",
-        "required": [
-          "email",
-          "id",
-          "created_at"
-        ],
+        "required": ["email", "id", "created_at"],
         "title": "UserRead"
       },
       "UserRole": {
         "type": "string",
-        "enum": [
-          "user",
-          "moderator",
-          "admin"
-        ],
+        "enum": ["user", "moderator", "admin"],
         "title": "UserRole"
       },
       "ValidationError": {
@@ -844,32 +759,18 @@
           "loc": {
             "items": {
               "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
+                {"type": "string"},
+                {"type": "integer"}
               ]
             },
             "type": "array",
             "title": "Location"
           },
-          "msg": {
-            "type": "string",
-            "title": "Message"
-          },
-          "type": {
-            "type": "string",
-            "title": "Error Type"
-          }
+          "msg": {"type": "string", "title": "Message"},
+          "type": {"type": "string", "title": "Error Type"}
         },
         "type": "object",
-        "required": [
-          "loc",
-          "msg",
-          "type"
-        ],
+        "required": ["loc", "msg", "type"],
         "title": "ValidationError"
       }
     },
