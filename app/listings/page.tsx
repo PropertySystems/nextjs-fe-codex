@@ -537,38 +537,49 @@ export default function ListingsPage() {
                       </div>
                     </div>
 
-                    <div className="mt-auto flex items-center justify-between text-sm text-slate-700">
-                      <span className="inline-flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
-                        {listing.city}
-                      </span>
-                      <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">#{listing.id.slice(0, 6)}</span>
-                    </div>
-
-                    {canManageListing(listing) ? (
-                      <div className="flex items-center justify-between gap-3 border-t border-slate-100 px-1 pt-3">
-                        <Link
-                          href={`/listings/${listing.id}/edit`}
-                          className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-800"
-                        >
-                          <Pencil className="h-4 w-4" /> Edit
-                        </Link>
-                        <button
-                          type="button"
-                          onClick={() => handleDelete(listing.id)}
-                          disabled={deletingId === listing.id}
-                          className="inline-flex items-center gap-2 rounded-full border border-red-200 px-4 py-2 text-xs font-semibold text-red-700 transition hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
-                        >
-                          {deletingId === listing.id ? (
-                            "Deleting..."
-                          ) : (
-                            <>
-                              <Trash2 className="h-4 w-4" /> Delete
-                            </>
-                          )}
-                        </button>
+                    <div className="mt-auto space-y-3">
+                      <div className="flex items-center justify-between text-sm text-slate-700">
+                        <span className="inline-flex items-center gap-2">
+                          <MapPin className="h-4 w-4" />
+                          {listing.city}
+                        </span>
+                        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">#{listing.id.slice(0, 6)}</span>
                       </div>
-                    ) : null}
+
+                      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 px-1 pt-3">
+                        <Link
+                          href={`/listings/${listing.id}`}
+                          className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50"
+                        >
+                          View details
+                        </Link>
+
+                        {canManageListing(listing) ? (
+                          <div className="flex items-center gap-2">
+                            <Link
+                              href={`/listings/${listing.id}/edit`}
+                              className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-800"
+                            >
+                              <Pencil className="h-4 w-4" /> Edit
+                            </Link>
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(listing.id)}
+                              disabled={deletingId === listing.id}
+                              className="inline-flex items-center gap-2 rounded-full border border-red-200 px-4 py-2 text-xs font-semibold text-red-700 transition hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+                            >
+                              {deletingId === listing.id ? (
+                                "Deleting..."
+                              ) : (
+                                <>
+                                  <Trash2 className="h-4 w-4" /> Delete
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
                   </div>
                 </article>
               );
