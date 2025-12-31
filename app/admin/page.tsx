@@ -66,7 +66,7 @@ export default function AdminPage() {
     setStatus(null);
     setLoading(true);
     try {
-      const data = await fetchWithError<UserRecord[]>(`${API_BASE_URL}/api/v1/admin/users`, {
+      const data = await fetchWithError<UserRecord[]>(`${API_BASE_URL}/api/v1/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUsers(data);
@@ -112,7 +112,7 @@ export default function AdminPage() {
       };
 
       const updated = await fetchWithError<UserRecord>(
-        `${API_BASE_URL}/api/v1/admin/users/${editingUserId}`,
+        `${API_BASE_URL}/api/v1/users/${editingUserId}`,
         {
           method: "PATCH",
           headers: {
@@ -149,7 +149,7 @@ export default function AdminPage() {
     setStatus(null);
 
     try {
-      await fetchWithError(`${API_BASE_URL}/api/v1/admin/users/${userId}`, {
+      await fetchWithError(`${API_BASE_URL}/api/v1/users/${userId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
