@@ -33,7 +33,20 @@ export async function fetchWithError<T>(input: RequestInfo | URL, init?: Request
   const response = await fetch(input, init);
   const contentType = response.headers.get("content-type");
   const hasJson = contentType?.includes("application/json");
-  const payload = hasJson ? await response.json() : await response.text();
+
+  let payload: unknown = null;
+
+  if (response.status === 204) {
+    payload = null;
+  } else if (hasJson) {
+    try {
+      payload = await response.json();
+    } catch {
+      payload = null;
+    }
+  } else {
+    payload = await response.text();
+  }
 
   if (!response.ok) {
     throw new Error(extractErrorMessage(payload as ErrorPayload));
