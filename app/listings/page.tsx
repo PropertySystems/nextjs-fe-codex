@@ -1,9 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { CalendarClock, Filter, Home, MapPin, RefreshCw } from "lucide-react";
+import { CalendarClock, Filter, Home, MapPin, Pencil, RefreshCw, Trash2 } from "lucide-react";
 
+import { useAuth } from "@/components/auth-provider";
 import { API_BASE_URL, fetchWithError } from "@/lib/api";
 
 const propertyTypeOptions = ["apartment", "house", "land", "office"] as const;
@@ -57,6 +59,11 @@ type FiltersState = {
   pageSize: (typeof pageSizeOptions)[number];
 };
 
+type StatusMessage = {
+  type: "success" | "error";
+  text: string;
+};
+
 const initialFilters: FiltersState = {
   propertyType: "",
   listingType: "",
@@ -94,10 +101,14 @@ function formatDate(value: string) {
 }
 
 export default function ListingsPage() {
+  const { user, token } = useAuth();
+
   const [filters, setFilters] = useState<FiltersState>(initialFilters);
   const [data, setData] = useState<ListingListRead | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [actionMessage, setActionMessage] = useState<StatusMessage | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -157,6 +168,55 @@ export default function ListingsPage() {
     if (!data || !data.total) return 1;
     return Math.max(1, Math.ceil(data.total / filters.pageSize));
   }, [data, filters.pageSize]);
+
+  const canManageListing = (listing: ListingRead) => {
+    if (!user) return false;
+    if (["admin", "moderator"].includes(user.role ?? "")) return true;
+    return listing.user_id === user.id;
+  };
+
+  const handleDelete = async (listingId: string) => {
+    setActionMessage(null);
+
+    if (!token) {
+      setActionMessage({
+        type: "error",
+        text: "Please sign in to delete listings.",
+      });
+      return;
+    }
+
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this listing? This action cannot be undone.",
+    );
+
+    if (!confirmed) return;
+
+    setDeletingId(listingId);
+
+    try {
+      await fetchWithError(`${API_BASE_URL}/api/v1/listings/${listingId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setData((prev) => {
+        if (!prev) return prev;
+        const items = prev.items.filter((item) => item.id !== listingId);
+        const total = Math.max(0, prev.total - 1);
+        return { ...prev, items, total };
+      });
+
+      setActionMessage({ type: "success", text: "Listing deleted successfully." });
+    } catch (err) {
+      setActionMessage({
+        type: "error",
+        text: err instanceof Error ? err.message : "Failed to delete listing.",
+      });
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   const handleFilterChange = (
     key: keyof FiltersState,
@@ -389,6 +449,18 @@ export default function ListingsPage() {
           </div>
         )}
 
+        {actionMessage && (
+          <div
+            className={`rounded-2xl border px-4 py-3 text-sm ${
+              actionMessage.type === "success"
+                ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                : "border-red-200 bg-red-50 text-red-700"
+            }`}
+          >
+            {actionMessage.text}
+          </div>
+        )}
+
         {loading ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: filters.pageSize }).map((_, index) => (
@@ -472,6 +544,31 @@ export default function ListingsPage() {
                       </span>
                       <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">#{listing.id.slice(0, 6)}</span>
                     </div>
+
+                    {canManageListing(listing) ? (
+                      <div className="flex items-center justify-between gap-3 border-t border-slate-100 px-1 pt-3">
+                        <Link
+                          href={`/listings/${listing.id}/edit`}
+                          className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-800"
+                        >
+                          <Pencil className="h-4 w-4" /> Edit
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(listing.id)}
+                          disabled={deletingId === listing.id}
+                          className="inline-flex items-center gap-2 rounded-full border border-red-200 px-4 py-2 text-xs font-semibold text-red-700 transition hover:border-red-300 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {deletingId === listing.id ? (
+                            "Deleting..."
+                          ) : (
+                            <>
+                              <Trash2 className="h-4 w-4" /> Delete
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    ) : null}
                   </div>
                 </article>
               );
