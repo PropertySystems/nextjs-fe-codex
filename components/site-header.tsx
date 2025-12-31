@@ -22,6 +22,9 @@ export function SiteHeader() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
+  const isAdmin = ["admin", "moderator"].includes(user?.role ?? "");
+  const links = isAdmin ? [...navLinks, { name: "Admin", href: "/admin" }] : navLinks;
+
   const closeMenu = () => setOpen(false);
 
   return (
@@ -43,7 +46,7 @@ export function SiteHeader() {
         </Link>
 
         <div className="hidden items-center gap-8 text-sm font-medium text-slate-700 md:flex">
-          {navLinks.map((link) => {
+          {links.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
@@ -117,7 +120,7 @@ export function SiteHeader() {
       {open ? (
         <div className="border-t border-slate-200 bg-white md:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 text-sm font-medium text-slate-700">
-            {navLinks.map((link) => {
+            {links.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
