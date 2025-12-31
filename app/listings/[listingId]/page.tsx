@@ -108,9 +108,12 @@ async function loadListing(listingId: string): Promise<ListingLoadResult> {
 export default async function ListingDetailsPage({
   params,
 }: {
-  params: { listingId: string };
+  params: Promise<{ listingId: string }>;
 }) {
-  const listingId = Array.isArray(params.listingId) ? params.listingId[0] : params.listingId;
+  const resolvedParams = await params;
+  const listingId = Array.isArray(resolvedParams.listingId)
+    ? resolvedParams.listingId[0]
+    : resolvedParams.listingId;
   const { listing, notFound: isMissing, error } = listingId
     ? await loadListing(listingId)
     : { listing: null, notFound: true, error: null };
