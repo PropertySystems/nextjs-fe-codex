@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CalendarClock, Home, MapPin, Ruler, SquareStack } from "lucide-react";
+import { AlertCircle, ArrowLeft, CalendarClock, Home, MapPin, Ruler, SquareStack } from "lucide-react";
 
-import { API_BASE_URL, fetchWithError } from "@/lib/api";
+import { API_BASE_URL, extractErrorMessage } from "@/lib/api";
 
 type ListingImageRead = {
   id: string;
@@ -46,11 +46,62 @@ function formatDate(value: string) {
   }).format(new Date(value));
 }
 
-async function loadListing(listingId: string): Promise<ListingRead | null> {
+type ListingLoadResult = {
+  listing: ListingRead | null;
+  notFound: boolean;
+  error: string | null;
+};
+
+async function loadListing(listingId: string): Promise<ListingLoadResult> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8_000);
+
   try {
-    return await fetchWithError<ListingRead>(`${API_BASE_URL}/api/v1/listings/${listingId}`);
-  } catch {
-    return null;
+    const response = await fetch(`${API_BASE_URL}/api/v1/listings/${listingId}`, {
+      signal: controller.signal,
+      cache: "no-store",
+    });
+
+    const contentType = response.headers.get("content-type");
+    const hasJson = contentType?.includes("application/json");
+
+    let payload: unknown = null;
+
+    if (response.status !== 204) {
+      if (hasJson) {
+        try {
+          payload = await response.json();
+        } catch {
+          payload = null;
+        }
+      } else {
+        payload = await response.text();
+      }
+    }
+
+    if (response.status === 404) {
+      return { listing: null, notFound: true, error: null };
+    }
+
+    if (!response.ok) {
+      return {
+        listing: null,
+        notFound: false,
+        error: extractErrorMessage(payload),
+      };
+    }
+
+    return { listing: payload as ListingRead, notFound: false, error: null };
+  } catch (error) {
+    const timedOut = error instanceof DOMException && error.name === "AbortError";
+
+    return {
+      listing: null,
+      notFound: false,
+      error: timedOut ? "Request timed out. Please try again." : "Unable to load listing.",
+    };
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -60,10 +111,40 @@ export default async function ListingDetailsPage({
   params: { listingId: string };
 }) {
   const listingId = Array.isArray(params.listingId) ? params.listingId[0] : params.listingId;
-  const listing = listingId ? await loadListing(listingId) : null;
+  const { listing, notFound: isMissing, error } = listingId
+    ? await loadListing(listingId)
+    : { listing: null, notFound: true, error: null };
+
+  if (isMissing) {
+    notFound();
+  }
 
   if (!listing) {
-    notFound();
+    return (
+      <main className="mx-auto flex max-w-5xl flex-col gap-8 px-4 pb-16 pt-10">
+        <Link
+          href="/listings"
+          className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to listings
+        </Link>
+
+        <article className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm ring-1 ring-slate-100/50">
+          <div className="flex items-start gap-4">
+            <div className="rounded-full bg-rose-50 p-3 text-rose-600">
+              <AlertCircle className="h-5 w-5" />
+            </div>
+            <div className="space-y-2">
+              <h1 className="text-xl font-semibold text-slate-900">Unable to load this listing</h1>
+              <p className="text-sm text-slate-600">
+                {error ?? "Something went wrong while loading the listing details. Please try again."}
+              </p>
+            </div>
+          </div>
+        </article>
+      </main>
+    );
   }
 
   const coverImage = listing.images?.[0]?.url;
