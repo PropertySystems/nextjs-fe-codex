@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type React from "react";
 import { useMemo, useState } from "react";
 import { AlertCircle, CheckCircle2, ImageIcon, Loader2, UploadCloud } from "lucide-react";
 
